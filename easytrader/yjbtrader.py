@@ -38,6 +38,7 @@ class YJBTrader(WebTrader):
         if not verify_code:
             return False
         login_status, result = self.post_login_data(verify_code)
+        log.info('login_yjb, status=%d',login_status)
         if login_status is False and throw:
             raise NotLoginError(result)
         return login_status
@@ -89,6 +90,7 @@ class YJBTrader(WebTrader):
             entrust_no=entrust_no,
             stock_code=stock_code
         )
+        log.info("yjb cancel_entrust no:%d, stockid:%d", entrust_no, stock_code)
         return self.do(cancel_params)
 
     @property
@@ -128,6 +130,8 @@ class YJBTrader(WebTrader):
             entrust_bs=1,  # 买入1 卖出2
             entrust_amount=amount if amount else volume // price // 100 * 100
         )
+
+        log.info("yjb buy stock: price=%.2f, amount=%d", price, params['entrust_amount'])
         return self.__trade(stock_code, price, entrust_prop=entrust_prop, other=params)
 
     def sell(self, stock_code, price, amount=0, volume=0, entrust_prop=0):
@@ -143,6 +147,7 @@ class YJBTrader(WebTrader):
             entrust_bs=2,  # 买入1 卖出2
             entrust_amount=amount if amount else volume // price
         )
+        log.info("yjb sell stock: price=%.2f, amount=%d", price, params['entrust_amount'])
         return self.__trade(stock_code, price, entrust_prop=entrust_prop, other=params)
 
     def get_ipo_limit(self, stock_code):

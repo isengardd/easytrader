@@ -13,9 +13,9 @@
     "input_content": 1,
     "content_type": 0,
     "loginPasswordType": "B64",
-    "disk_serial_id": "ST3250820AS",
-    "cpuid": "-41315-FA76141D",
-    "machinecode": "-41315-FA76141D"
+    "disk_serial_id": "",
+    "cpuid": "-306D4-7FFAFBBF",
+    "machinecode": "-306D4-7FFAFBBF"
   },
   "buy": {
     "service_type": "stock",

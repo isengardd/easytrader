@@ -9,6 +9,8 @@ import six
 
 from . import helpers
 from .log import log
+from .log import fmt as LogFormatter
+from logging.handlers import RotatingFileHandler
 
 if six.PY2:
     import sys
@@ -42,6 +44,11 @@ class WebTrader(object):
         self.heart_active = True
         self.heart_thread = Thread(target=self.send_heartbeat)
         self.heart_thread.setDaemon(True)
+        if 'logfilepath' in self.global_config and self.global_config['logfilepath'] != "":
+            fh = RotatingFileHandler(self.global_config['logfilepath'], maxBytes=40*1024*1024,backupCount=10)
+            fh.setLevel(logging.INFO)
+            fh.setFormatter(LogFormatter)
+            log.handlers.append(fh)
 
     def read_config(self, path):
         try:
