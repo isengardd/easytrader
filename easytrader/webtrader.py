@@ -44,15 +44,15 @@ class WebTrader(object):
         self.heart_active = True
         self.heart_thread = Thread(target=self.send_heartbeat)
         self.heart_thread.setDaemon(True)
-        if 'logfilepath' in self.global_config and self.global_config['logfilepath'] != "":
-            fh = RotatingFileHandler(self.global_config['logfilepath'], maxBytes=40*1024*1024,backupCount=10)
-            fh.setLevel(logging.INFO)
-            fh.setFormatter(LogFormatter)
-            log.handlers.append(fh)
 
     def read_config(self, path):
         try:
             self.account_config = helpers.file2dict(path)
+            if 'logfilepath' in self.account_config and self.account_config['logfilepath'] != "":
+                fh = RotatingFileHandler(self.account_config['logfilepath'], maxBytes=40*1024*1024,backupCount=10)
+                fh.setLevel(logging.INFO)
+                fh.setFormatter(LogFormatter)
+                log.handlers.append(fh)
         except ValueError:
             log.error('配置文件格式有误，请勿使用记事本编辑，推荐使用 notepad++ 或者 sublime text')
         for v in self.account_config:
